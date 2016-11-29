@@ -206,6 +206,13 @@ public class Boleyn {
     static void drawEntity(Entity entity) {
         image.insertCircle(entity.getX(), entity.getY(), entity.getRadius(), 255, 255, 255, false);
     }
+    //interaction between any two entities
+    static void interaction(Entity e1, Entity e2, double gravity){
+        double xdistance = (e2.getX()-e1.getX());
+        double ydistance = (e2.getY()-e1.getY());
+        double r = Math.sqrt((xdistance*xdistance)+(ydistance*ydistance));//distance between the center of both points
+        double ax = (gravity*e2.getMass())/(r*r);
+    }
 }
 //****************************************************************************
 //****************************************************************************
