@@ -190,7 +190,48 @@ public class Boleyn {
     //****************************************************************************
 
     static void iterate() {
+        for (int i = 0; i < entities.size(); i++) {
+            double accel[] = {0,0};
+            for (int j = i; j < entities.size(); j++) {
+                double newAccel[] = computeNewAcceleration(entities.get(i), entities.get(j), 1);
+                accel[0]+=newAccel[0];
+                accel[1]+=newAccel[1];
+            }
+            //this is where I should compute new location?
+            
+            
+        }
+    }
+    
+    static double[] computeNewAcceleration(Entity a, Entity b, int g){//entity a being acted on by entity b
         
+        
+        double magnitude = g * b.getMass()/distanceBetweenPoints(a, b); //distance
+        double slope = (b.getY()-a.getY())/(b.getX()-a.getX());// probs useless
+        Angles angleObject = new Angles();
+        double angle = angleObject.computeVectorAngle(b.getX(),b.getY(),a.getX(),a.getY());//I think this is backwards
+        //then multiply the magnitude of the acceleration times the cosine and
+        //sine of that angle to get the acceleration components in the x and y directions, respectively
+        double xAccel = Math.cos(angle)*magnitude;
+        double yAccel = Math.sin(angle)*magnitude;
+        double[] accel = {xAccel, yAccel};
+        return accel;
+        //consideration in the x direction is ax = aax + abx + acx 
+    }
+    
+    
+    static double distanceBetweenPoints(Entity a, Entity b){
+        double xDistance = (b.getX()-a.getX());
+        xDistance = xDistance * xDistance;
+        double yDistance = (b.getY()-b.getY());
+        yDistance = yDistance * yDistance;
+        return Math.sqrt(xDistance + yDistance);
+        
+    }
+    
+     static void computeNewPosition(Entity a, int timeStep){
+        a.setNX(a.getX()+a.getVX()*timeStep+.5*a.getAX()*timeStep*timeStep);
+        a.setNY(a.getY()+a.getVY()*timeStep+.5*a.getAY()*timeStep*timeStep);
     }
     
     static void updateImage() {
@@ -205,13 +246,6 @@ public class Boleyn {
     //****************************************************************************
     static void drawEntity(Entity entity) {
         image.insertCircle(entity.getX(), entity.getY(), entity.getRadius(), 255, 255, 255, false);
-    }
-    //interaction between any two entities
-    static void interaction(Entity e1, Entity e2, double gravity){
-        double xdistance = (e2.getX()-e1.getX());
-        double ydistance = (e2.getY()-e1.getY());
-        double r = Math.sqrt((xdistance*xdistance)+(ydistance*ydistance));//distance between the center of both points
-        double ax = (gravity*e2.getMass())/(r*r);
     }
 }
 //****************************************************************************

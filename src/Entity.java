@@ -3,6 +3,9 @@ public class Entity {
     private double[] position = new double[2];
     private double[] velocity = new double[2];//0 is x, 1 is y
     private double[] acceleration = new double[2];
+    private double[] nPosition = new double[2];
+    private double[] nVelocity = new double[2];//0 is x, 1 is y
+    private double[] nAcceleration = new double[2];
     private double radius;//maybe should be int?
     private double mass;// equal to area
     final double pi = 3.14159265358979323846;
@@ -107,6 +110,30 @@ public class Entity {
     //****************************************************************************  
     void setMass(double area){// shouldn't be needed except for when setRadius calls it.. private?
         this.mass = area;
+    }
+    //****************************************************************************
+    void setNX(double x){
+        this.nPosition[0] = x;
+    }
+    //****************************************************************************
+    void setNY(double y){
+        this.nPosition[1] = y;
+    }
+    //****************************************************************************
+    void setNVX(double vx){
+        this.nVelocity[0] = vx;
+    }
+    //****************************************************************************
+    void setNVY(double vy){
+        this.nVelocity[1] = vy;
+    }
+    //****************************************************************************
+     void setNAX(double ax){
+        this.nAcceleration[0] = ax;
+    }
+    //****************************************************************************
+    void setNAY(double ay){
+        this.nAcceleration[1] = ay;
     }
     //****************************************************************************
 }
